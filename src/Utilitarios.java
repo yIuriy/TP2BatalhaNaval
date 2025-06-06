@@ -51,53 +51,6 @@ public class Utilitarios {
         }
     }
 
-//    public static String[][] posicionarEmbarcacao(String[][] matriz, int quantidadeDaEmbarcacao, String[] formatoDaEmbarcao) {
-//        Embarcacoes embarcacoes = new Embarcacoes();
-//        for (int i = 0; i < quantidadeDaEmbarcacao; i++) {
-//            int linha = ThreadLocalRandom.current().nextInt(0, 10);
-//            int coluna = ThreadLocalRandom.current().nextInt(0, 10);
-//            if (matriz[linha][coluna].equals(".")) {
-//                System.out.println(i);
-//                if (definirLocalizacao().equals("VERTICAL")) {
-//                    for (int j = 0; j < formatoDaEmbarcao.length; j++) {
-//                        matriz[linha + j][coluna] = formatoDaEmbarcao[j];
-//                    }
-//                } else {
-//                    for (int j = 0; j < formatoDaEmbarcao.length; j++) {
-//                        matriz[linha][coluna + j] = formatoDaEmbarcao[j];
-//                    }
-//                }
-//            }
-//        }
-//        return matriz;
-//    }
-
-    public static String[][] posicionarEmbarcacao(String[][] matriz, int quantidadeDaEmbarcacao, String[] formatoDaEmbarcao) {
-        Embarcacoes embarcacoes = new Embarcacoes();
-        int linha = ThreadLocalRandom.current().nextInt(0, 10);
-        int coluna = ThreadLocalRandom.current().nextInt(0, 10);
-        if (matriz[linha][coluna].equals(".")) {
-            if (definirLocalizacao().equals("VERTICAL")) {
-                for (int j = 0; j < formatoDaEmbarcao.length; j++) {
-                    if ((linha + j) > 9 || coluna > 9) {
-                        break;
-                    }
-                    matriz[linha + j][coluna] = formatoDaEmbarcao[j];
-                    System.out.print("[" + (linha + j + 1) + ", " + (coluna + 1) + "]");
-                }
-            } else {
-                for (int j = 0; j < formatoDaEmbarcao.length; j++) {
-                    if (linha > 9 || (coluna + j) > 9) {
-                        break;
-                    }
-                    matriz[linha][coluna + j] = formatoDaEmbarcao[j];
-                    System.out.print("[" + (linha + 1) + ", " + (coluna + j + 1) + "]");
-                }
-            }
-        }
-        return matriz;
-    }
-
     public static String[][] posicionarPortaAviao(String[][] matriz) {
         Embarcacoes embarcacoes = new Embarcacoes();
         String[] formato = embarcacoes.getFormatoPortaAviao();
@@ -112,40 +65,49 @@ public class Utilitarios {
             if (matriz[linha][coluna].equals(".")) {
                 permitir = true;
                 if (definirLocalizacao().equals("VERTICAL")) {
-                    for (int j = 0; j < formato.length; j++) {
-                        System.out.print("[" + (linha + j) + ", " + (coluna) + "]");
-                        linhas[j] = linha + j;
-                        colunas[j] = coluna;
-                    }
-                    for (int k = 0; k < 4; k++) {
-                        if (linhas[k] > 9 || colunas[k] > 9) {
-                            permitir = false;
+                    if (matriz[linha + 1][coluna].equals(".")
+                            && matriz[linha + 2][coluna].equals(".")
+                            && matriz[linha + 3][coluna].equals(".")
+                    ) {
+                        for (int j = 0; j < formato.length; j++) {
+                            System.out.print("[" + (linha + j) + ", " + (coluna) + "]");
+                            linhas[j] = linha + j;
+                            colunas[j] = coluna;
                         }
-                    }
-                    if (permitir) {
-                        for (int l = 0; l < 4; l++) {
-                            matriz[linhas[l]][colunas[l]] = formato[l];
+                        for (int k = 0; k < 4; k++) {
+                            if (linhas[k] > 9 || colunas[k] > 9) {
+                                permitir = false;
+                            }
                         }
-                        quantidadePosicionado++;
+                        if (permitir) {
+                            for (int l = 0; l < 4; l++) {
+                                matriz[linhas[l]][colunas[l]] = formato[l];
+                            }
+                            quantidadePosicionado++;
+                        }
                     }
                 } else {
                     if (matriz[linha][coluna].equals(".")) {
-                        if (definirLocalizacao().equals("VERTICAL")) {
-                            for (int j = 0; j < formato.length; j++) {
-                                System.out.print("[" + (linha) + ", " + (coluna + j) + "]");
-                                linhas[j] = linha;
-                                colunas[j] = coluna + j;
-                            }
-                            for (int k = 0; k < 4; k++) {
-                                if (linhas[k] > 9 || colunas[k] > 9) {
-                                    permitir = false;
+                        if (definirLocalizacao().equals("HORIZONTAL")) {
+                            if (matriz[linha][coluna + 1].equals(".")
+                                    && matriz[linha][coluna + 2].equals(".")
+                                    && matriz[linha][coluna + 3].equals(".")) {
+                                for (int j = 0; j < formato.length; j++) {
+                                    System.out.print("[" + (linha) + ", " + (coluna + j) + "]");
+                                    linhas[j] = linha;
+                                    colunas[j] = coluna + j;
                                 }
-                            }
-                            if (permitir) {
-                                for (int l = 0; l < 4; l++) {
-                                    matriz[linhas[l]][colunas[l]] = formato[l];
+                                for (int k = 0; k < 4; k++) {
+                                    if (linhas[k] > 9 || colunas[k] > 9) {
+                                        permitir = false;
+                                    }
                                 }
-                                quantidadePosicionado++;
+                                if (permitir) {
+                                    for (int l = 0; l < 4; l++) {
+                                        matriz[linhas[l]][colunas[l]] = formato[l];
+                                    }
+                                    quantidadePosicionado++;
+                                }
                             }
                         }
                     }
@@ -170,40 +132,49 @@ public class Utilitarios {
             if (matriz[linha][coluna].equals(".")) {
                 permitir = true;
                 if (definirLocalizacao().equals("VERTICAL")) {
-                    for (int j = 0; j < formato.length; j++) {
-                        System.out.print("[" + (linha + j) + ", " + (coluna) + "]");
-                        linhas[j] = linha + j;
-                        colunas[j] = coluna;
-                    }
-                    for (int k = 0; k < formato.length; k++) {
-                        if (linhas[k] > 9 || colunas[k] > 9) {
-                            permitir = false;
+                    if (matriz[linha + 1][coluna].equals(".")
+                            && matriz[linha + 2][coluna].equals(".")
+                    ) {
+                        for (int j = 0; j < formato.length; j++) {
+                            System.out.print("[" + (linha + j) + ", " + (coluna) + "]");
+                            linhas[j] = linha + j;
+                            colunas[j] = coluna;
                         }
-                    }
-                    if (permitir) {
-                        for (int l = 0; l < formato.length; l++) {
-                            matriz[linhas[l]][colunas[l]] = formato[l];
+                        for (int k = 0; k < formato.length; k++) {
+                            if (linhas[k] > 9 || colunas[k] > 9) {
+                                permitir = false;
+                            }
                         }
-                        quantidadePosicionado++;
+                        if (permitir) {
+                            for (int l = 0; l < formato.length; l++) {
+                                matriz[linhas[l]][colunas[l]] = formato[l];
+                            }
+                            quantidadePosicionado++;
+                        }
                     }
                 } else {
                     if (matriz[linha][coluna].equals(".")) {
-                        if (definirLocalizacao().equals("VERTICAL")) {
-                            for (int j = 0; j < formato.length; j++) {
-                                System.out.print("[" + (linha) + ", " + (coluna + j) + "]");
-                                linhas[j] = linha;
-                                colunas[j] = coluna + j;
-                            }
-                            for (int k = 0; k < formato.length; k++) {
-                                if (linhas[k] > 9 || colunas[k] > 9) {
-                                    permitir = false;
+                        if (definirLocalizacao().equals("HORIZONTAL")) {
+                            if (matriz[linha][coluna].equals(".")
+                                    && matriz[linha][coluna + 1].equals(".")
+                                    && matriz[linha][coluna + 2].equals(".")
+                            ) {
+                                for (int j = 0; j < formato.length; j++) {
+                                    System.out.print("[" + (linha) + ", " + (coluna + j) + "]");
+                                    linhas[j] = linha;
+                                    colunas[j] = coluna + j;
                                 }
-                            }
-                            if (permitir) {
-                                for (int l = 0; l < formato.length; l++) {
-                                    matriz[linhas[l]][colunas[l]] = formato[l];
+                                for (int k = 0; k < formato.length; k++) {
+                                    if (linhas[k] > 9 || colunas[k] > 9) {
+                                        permitir = false;
+                                    }
                                 }
-                                quantidadePosicionado++;
+                                if (permitir) {
+                                    for (int l = 0; l < formato.length; l++) {
+                                        matriz[linhas[l]][colunas[l]] = formato[l];
+                                    }
+                                    quantidadePosicionado++;
+                                }
                             }
                         }
                     }
@@ -228,40 +199,44 @@ public class Utilitarios {
             if (matriz[linha][coluna].equals(".")) {
                 permitir = true;
                 if (definirLocalizacao().equals("VERTICAL")) {
-                    for (int j = 0; j < formato.length; j++) {
-                        System.out.print("[" + (linha + j) + ", " + (coluna) + "]");
-                        linhas[j] = linha + j;
-                        colunas[j] = coluna;
-                    }
-                    for (int k = 0; k < formato.length; k++) {
-                        if (linhas[k] > 9 || colunas[k] > 9) {
-                            permitir = false;
+                    if (matriz[linha + 1][coluna].equals(".")) {
+                        for (int j = 0; j < formato.length; j++) {
+                            System.out.print("[" + (linha + j) + ", " + (coluna) + "]");
+                            linhas[j] = linha + j;
+                            colunas[j] = coluna;
                         }
-                    }
-                    if (permitir) {
-                        for (int l = 0; l < formato.length; l++) {
-                            matriz[linhas[l]][colunas[l]] = formato[l];
+                        for (int k = 0; k < formato.length; k++) {
+                            if (linhas[k] > 9 || colunas[k] > 9) {
+                                permitir = false;
+                            }
                         }
-                        quantidadePosicionado++;
-                    }
-                } else {
-                    if (matriz[linha][coluna].equals(".")) {
-                        if (definirLocalizacao().equals("VERTICAL")) {
-                            for (int j = 0; j < formato.length; j++) {
-                                System.out.print("[" + (linha) + ", " + (coluna + j) + "]");
-                                linhas[j] = linha;
-                                colunas[j] = coluna + j;
+                        if (permitir) {
+                            for (int l = 0; l < formato.length; l++) {
+                                matriz[linhas[l]][colunas[l]] = formato[l];
                             }
-                            for (int k = 0; k < formato.length; k++) {
-                                if (linhas[k] > 9 || colunas[k] > 9) {
-                                    permitir = false;
+                            quantidadePosicionado++;
+                        }
+                    } else {
+                        if (matriz[linha][coluna].equals(".")) {
+                            if (definirLocalizacao().equals("HORIZONTAL")) {
+                                if (matriz[linha][coluna + 1].equals(".")) {
+                                    for (int j = 0; j < formato.length; j++) {
+                                        System.out.print("[" + (linha) + ", " + (coluna + j) + "]");
+                                        linhas[j] = linha;
+                                        colunas[j] = coluna + j;
+                                    }
+                                    for (int k = 0; k < formato.length; k++) {
+                                        if (linhas[k] > 9 || colunas[k] > 9) {
+                                            permitir = false;
+                                        }
+                                    }
+                                    if (permitir) {
+                                        for (int l = 0; l < formato.length; l++) {
+                                            matriz[linhas[l]][colunas[l]] = formato[l];
+                                        }
+                                        quantidadePosicionado++;
+                                    }
                                 }
-                            }
-                            if (permitir) {
-                                for (int l = 0; l < formato.length; l++) {
-                                    matriz[linhas[l]][colunas[l]] = formato[l];
-                                }
-                                quantidadePosicionado++;
                             }
                         }
                     }
@@ -304,7 +279,7 @@ public class Utilitarios {
                     }
                 } else {
                     if (matriz[linha][coluna].equals(".")) {
-                        if (definirLocalizacao().equals("VERTICAL")) {
+                        if (definirLocalizacao().equals("HORIZONTAL")) {
                             for (int j = 0; j < formato.length; j++) {
                                 System.out.print("[" + (linha) + ", " + (coluna + j) + "]");
                                 linhas[j] = linha;
@@ -362,7 +337,7 @@ public class Utilitarios {
                     }
                 } else {
                     if (matriz[linha][coluna].equals(".")) {
-                        if (definirLocalizacao().equals("VERTICAL")) {
+                        if (definirLocalizacao().equals("HORIZONTAL")) {
                             for (int j = 0; j < formato.length; j++) {
                                 System.out.print("[" + (linha) + ", " + (coluna + j) + "]");
                                 linhas[j] = linha;
