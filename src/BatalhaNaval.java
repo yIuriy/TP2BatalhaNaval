@@ -7,7 +7,7 @@ public class BatalhaNaval {
         int navioAfundados = 0;
         int ataquesFeitos = 0;
 
-        Embarcacao[][] tabelaA = Tabuleiro.criarTabuleiroVazioA();
+        Embarcacao[][] tabelaA = Tabuleiro.criarTabuleiroVazioA(); // matriz das embarcações
         char[][] tabelaB = Tabuleiro.criarTabuleiroVazioB(); // matriz que o usuário irá ver
 
         Embarcacao portaAviao1 = Embarcacao.criarEmbarcacao(tabelaA, 'P', 4);
@@ -67,19 +67,20 @@ public class BatalhaNaval {
 
                 if (tabelaB[linhaAtaque][colunaAtaque] != '.') { // "." é uma região vazia
                     System.out.println("Você já atingiu essa região do tabuleiro.");
-
                 } else if (tabelaA[linhaAtaque][colunaAtaque] == null) {
+                    // Bloco caso o ataque não tenha acertado nenhuma embarcacação
                     System.out.println("Você acertou: " + "\u001B[34m" + "Água" + "\u001B[0m");
                     tabelaB[linhaAtaque][colunaAtaque] = '*';
                     ataquesFeitos++;
                     TimeUnit.MILLISECONDS.sleep(750);
 
                 } else if (tabelaA[linhaAtaque][colunaAtaque] != null) {
+                    // Bloco caso o ataque tenha acertado alguma embarcacação
                     Embarcacao.causarDano(tabelaA[linhaAtaque][colunaAtaque]);
                     tabelaB[linhaAtaque][colunaAtaque] = tabelaA[linhaAtaque][colunaAtaque].getTipo();
                     ataquesFeitos++;
                     System.out.println("Você acertou o navio: " + Embarcacao.getNomeDoNavio(tabelaA[linhaAtaque][colunaAtaque].getTipo()));
-                    TimeUnit.MILLISECONDS.sleep(750);
+                    TimeUnit.MILLISECONDS.sleep(750); // Pequena pausa
                     if (!tabelaA[linhaAtaque][colunaAtaque].isVivo()) {
                         System.out.println("Navio " + Embarcacao.getNomeDoNavio(tabelaA[linhaAtaque][colunaAtaque].getTipo()) + " " +
                                 "afundado!");

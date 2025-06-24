@@ -31,7 +31,7 @@ public class Embarcacao {
             embarcacao.setDirecao('B'); // Para baixo
         }
 
-        while (isInvalido) { // Só adicionará a embarcação quando as posições forem validas
+        while (isInvalido) { // Só adicionará a embarcação quando todas as posições forem válidas
             boolean isValido = true;
 
             // Garante que a embarcação não saía dos limites do tabuleiro
@@ -75,7 +75,7 @@ public class Embarcacao {
             case 'E' -> "\u001B[35mEncouraçado\u001B[0m";
             case 'C' -> "\u001B[35mCruzador\u001B[0m";
             case 'S' -> "\u001B[35mSubmarino\u001B[0m";
-            default -> "\u001B[35mHidroavião\u001B[0m";
+            default ->  "\u001B[35mHidroavião\u001B[0m";
         };
     }
 

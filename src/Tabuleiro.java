@@ -20,6 +20,7 @@ public class Tabuleiro {
     }
 
     public static void mostrarCampoDeBatalha(char[][] matrizDoCampoDeBatalha) {
+        // mostra a matriz para o usuário formatada
         System.out.println("    1  2  3  4  5  6  7  8  9  10");
         for (int linha = 0; linha < 10; linha++) {
             System.out.print((linha + 1) + ((linha + 1 != 10) ? "  " : " "));
@@ -38,6 +39,7 @@ public class Tabuleiro {
     }
 
     public static void mostrarCampoDeDebug(Embarcacao[][] matriz) {
+        // método para fins de teste do jogo, mostrando a matriz das embarcações
         System.out.println("    1  2  3  4  5  6  7  8  9  10");
         for (int linha = 0; linha < 10; linha++) {
             System.out.print((linha + 1) + ((linha + 1 != 10) ? "  " : " "));
@@ -54,6 +56,7 @@ public class Tabuleiro {
     }
 
     public static void adicionarEmbarcacaoNoTabuleiroA(Embarcacao embarcacao, Embarcacao[][] tabuleiroA) {
+        // adiciona a embarcações no tabuleiro de embarcações
         for (int i = 0; i < embarcacao.getTamanho(); i++) {
             if (embarcacao.getDirecao() == 'D') { // Direita
                 tabuleiroA[embarcacao.getLinha()][embarcacao.getColuna() + i] = embarcacao;
